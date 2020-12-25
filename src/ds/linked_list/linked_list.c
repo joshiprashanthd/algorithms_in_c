@@ -9,6 +9,7 @@ int insert(struct Node** root, char* value) {
 
   struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
   new_node->value = value;
+  new_node->next = NULL;
 
   if ((*root) == NULL) {
     *root = new_node;
