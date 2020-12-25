@@ -8,12 +8,12 @@ struct Node {
 
 struct LinkedList {
   int count;
-  struct Node* base_node;
+  struct Node* root;
 };
 
-int insert(struct Node** base_node, char* value);
-int search(struct Node* base_node, char* value);
-int delete (struct Node** base_node, char* value);
-void show(struct Node* base_node);
+int insert(struct Node** root, char* value);
+int search(struct Node* root, char* value);
+int delete (struct Node** root, char* value);
+void show(struct Node* root);
 void test_linked_list();
 #endif

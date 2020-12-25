@@ -4,26 +4,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int insert(struct Node** base_node, char* value) {
+int insert(struct Node** root, char* value) {
   if (value == NULL) return 0;
 
-  struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-  newNode->value = value;
+  struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+  new_node->value = value;
 
-  if ((*base_node) == NULL) {
-    *base_node = newNode;
+  if ((*root) == NULL) {
+    *root = new_node;
   } else {
-    struct Node* temp = *base_node;
+    struct Node* temp = *root;
     while (temp->next != NULL) temp = temp->next;
-    temp->next = newNode;
+    temp->next = new_node;
     temp = NULL;
   }
 
   return 1;
 }
 
-int search(struct Node* base_node, char* value) {
-  struct Node* temp = base_node;
+int search(struct Node* root, char* value) {
+  struct Node* temp = root;
 
   while (temp != NULL) {
     if (temp->value == value) return 1;
@@ -33,14 +33,14 @@ int search(struct Node* base_node, char* value) {
   return 0;
 }
 
-int delete (struct Node** base_node, char* value) {
-  assert(*base_node != NULL);
+int delete (struct Node** root, char* value) {
+  assert(*root != NULL);
 
-  int result = search(*base_node, value);
+  int result = search(*root, value);
 
   if (result != 1) return 0;
 
-  struct Node* temp = *base_node;
+  struct Node* temp = *root;
 
   // temp points to previous node of the node to remove
   while ((temp->next)->value != value) temp = temp->next;
@@ -53,8 +53,8 @@ int delete (struct Node** base_node, char* value) {
   return 1;
 }
 
-void show(struct Node* base_node) {
-  struct Node* temp = base_node;
+void show(struct Node* root) {
+  struct Node* temp = root;
 
   while (temp->next != NULL) {
     printf("[%s] -> ", temp->value);
@@ -67,24 +67,23 @@ void show(struct Node* base_node) {
 void test_linked_list() {
   printf("Linked List Test started\n");
 
-  
   struct LinkedList ll = {0, NULL};
 
   printf("\tTest `insert`\n");
-  assert(insert(&ll.base_node, "A") == 1);
-  assert(insert(&ll.base_node, "B") == 1);
-  assert(insert(&ll.base_node, NULL) == 0);
+  assert(insert(&ll.root, "A") == 1);
+  assert(insert(&ll.root, "B") == 1);
+  assert(insert(&ll.root, NULL) == 0);
   printf("\tTest `insert` completed\n");
 
   printf("\tTest `search`\n");
-  assert(search(ll.base_node, "A") == 1);
-  assert(search(ll.base_node, "B") == 1);
-  assert(search(ll.base_node, "9") == 0);
+  assert(search(ll.root, "A") == 1);
+  assert(search(ll.root, "B") == 1);
+  assert(search(ll.root, "9") == 0);
   printf("\tTest `search` completed\n");
 
   printf("\tTest `remove`\n");
-  assert(delete (&ll.base_node, "B") == 1);
-  assert(search(ll.base_node, "B") == 0);
+  assert(delete (&ll.root, "B") == 1);
+  assert(search(ll.root, "B") == 0);
   printf("\tTest `remove` completed\n");
 
   printf("Linked List Test Completed");
