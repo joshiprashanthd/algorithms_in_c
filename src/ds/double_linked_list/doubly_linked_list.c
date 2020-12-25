@@ -63,6 +63,19 @@ int delete (struct Node** root, char* value) {
   return 1;
 }
 
+char* pop(struct Node** root) {
+  if ((*root) == NULL) return 0;
+
+  struct Node* temp = *root;
+  while (temp->next != NULL) temp = temp->next;
+
+  char* target_value = temp->value;
+  if (temp->prev) (temp->prev)->next = NULL;
+  free(temp);
+
+  return target_value;
+}
+
 void test_doubly_linked_list() {
   printf("\nDoubly Linked List Test Started:\n");
 
@@ -88,6 +101,10 @@ void test_doubly_linked_list() {
 
   assert(delete (&dll.root, "B") == 0);
   printf("\tTest `insert` completed\n");
+
+  printf("\tTest `pop`\n");
+  assert(pop(&dll.root) == "D");
+  printf("\tTest `pop` completed\n");
 
   printf("Doublu Linked List Test Completed\n");
 }
