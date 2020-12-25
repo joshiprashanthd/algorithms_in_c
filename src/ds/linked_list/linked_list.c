@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void insert(struct Node** base_node, char* value) {
+int insert(struct Node** base_node, char* value) {
+  if (value == NULL) return 0;
+
   struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
   newNode->value = value;
 
@@ -16,6 +18,8 @@ void insert(struct Node** base_node, char* value) {
     temp->next = newNode;
     temp = NULL;
   }
+
+  return 1;
 }
 
 int search(struct Node* base_node, char* value) {

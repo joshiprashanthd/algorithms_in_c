@@ -11,7 +11,7 @@ struct LinkedList {
   struct Node* base_node;
 };
 
-void insert(struct Node** base_node, char* value);
+int insert(struct Node** base_node, char* value);
 int search(struct Node* base_node, char* value);
 int delete (struct Node** base_node, char* value);
 void show(struct Node* base_node);
