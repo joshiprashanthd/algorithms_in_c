@@ -65,23 +65,27 @@ void show(struct Node* base_node) {
 }
 
 void test_linked_list() {
-  printf("Test started\n");
+  printf("Linked List Test started\n");
 
+  
   struct LinkedList ll = {0, NULL};
-  insert(&ll.base_node, "A");
-  insert(&ll.base_node, "B");
-  insert(&ll.base_node, "9");
 
-  printf("Test `search` function\n");
+  printf("\tTest `insert`\n");
+  assert(insert(&ll.base_node, "A") == 1);
+  assert(insert(&ll.base_node, "B") == 1);
+  assert(insert(&ll.base_node, NULL) == 0);
+  printf("\tTest `insert` completed\n");
+
+  printf("\tTest `search`\n");
   assert(search(ll.base_node, "A") == 1);
   assert(search(ll.base_node, "B") == 1);
-  assert(search(ll.base_node, "9") == 1);
-  printf("Test `search` function completed\n");
+  assert(search(ll.base_node, "9") == 0);
+  printf("\tTest `search` completed\n");
 
-  printf("Test `remove` function\n");
+  printf("\tTest `remove`\n");
   assert(delete (&ll.base_node, "B") == 1);
   assert(search(ll.base_node, "B") == 0);
-  printf("Test `remove` function completed\n");
+  printf("\tTest `remove` completed\n");
 
-  printf("All Test Completed");
+  printf("Linked List Test Completed");
 }
