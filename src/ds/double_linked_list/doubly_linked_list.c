@@ -34,14 +34,44 @@ int search(struct Node* root, char* value) {
   return 0;
 }
 
+int delete (struct Node** root, char* value) {
+  if (value == NULL) return 0;
+  if ((*root) == NULL) return 0;
+
+  struct Node* temp = *root;
+
+  if (temp->value == value) {
+    if (temp->next != NULL) {
+      (temp->next)->prev = NULL;
+      *root = temp->next;
+    }
+
+    free(temp);
+    return 1;
+  }
+
+  while (temp->next != NULL && (temp->next)->value != value) temp = temp->next;
+
+  // cannot find node with value `value`
+  if (temp->next == NULL) return 0;
+
+  struct Node* target = temp->next;
+  temp->next = target->next;
+  (temp->next)->prev = temp;
+  free(target);
+
+  return 1;
+}
+
 void test_doubly_linked_list() {
   printf("\nDoubly Linked List Test Started:\n");
 
   struct DoublyLL dll = {0, NULL};
 
   printf("\tTest `insert`\n");
-  assert(insert(&dll.root, "A") == 1);
-  assert(insert(&dll.root, "B") == 1);
+  assert(append(&dll.root, "A") == 1);
+  assert(append(&dll.root, "B") == 1);
+  assert(append(&dll.root, "D") == 1);
   printf("\tTest `insert` completed\n");
 
   printf("\tTest `search`\n");
@@ -49,10 +79,15 @@ void test_doubly_linked_list() {
   assert(search(dll.root, "C") == 0);
   printf("\tTest `search` completed\n");
 
-  // printf("\tTest `insert`\n");
-  // assert(insert(&dll.root, "A") == 1);
-  // assert(insert(&dll.root, "B") == 1);
-  // printf("\tTest `insert` completed\n");
+  printf("\tTest `delete`\n");
+  assert(delete (&dll.root, "B") == 1);
+  assert(search(dll.root, "B") == 0);
+
+  assert(delete (&dll.root, "A") == 1);
+  assert(search(dll.root, "A") == 0);
+
+  assert(delete (&dll.root, "B") == 0);
+  printf("\tTest `insert` completed\n");
 
   printf("Doublu Linked List Test Completed\n");
 }
