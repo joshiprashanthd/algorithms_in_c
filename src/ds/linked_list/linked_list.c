@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int insert(struct Node** root, char* value) {
+int append(struct Node** root, char* value) {
   if (value == NULL) return 0;
 
   struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
