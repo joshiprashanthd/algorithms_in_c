@@ -65,27 +65,40 @@ void show(struct Node* root) {
   printf("[%s]\n", temp->value);
 }
 
+char* pop(struct Node** root) {
+  if (root == NULL) return NULL;
+
+  struct Node* temp = *root;
+  while (temp->next != NULL) temp = temp->next;
+
+  char* target_value = temp->value;
+  free(temp);
+
+  return target_value;
+}
+
 void test_linked_list() {
   printf("Linked List Test started\n");
 
   struct LinkedList ll = {0, NULL};
 
-  printf("\tTest `insert`\n");
   assert(insert(&ll.root, "A") == 1);
   assert(insert(&ll.root, "B") == 1);
   assert(insert(&ll.root, NULL) == 0);
   printf("\tTest `insert` completed\n");
 
-  printf("\tTest `search`\n");
   assert(search(ll.root, "A") == 1);
   assert(search(ll.root, "B") == 1);
   assert(search(ll.root, "9") == 0);
   printf("\tTest `search` completed\n");
 
-  printf("\tTest `remove`\n");
   assert(delete (&ll.root, "B") == 1);
   assert(search(ll.root, "B") == 0);
   printf("\tTest `remove` completed\n");
+
+  assert(pop(&ll.root) == "A");
+  assert(pop(&ll.root) == NULL);
+  printf("\tTest `pop` completed\n");
 
   printf("Linked List Test Completed");
 }
