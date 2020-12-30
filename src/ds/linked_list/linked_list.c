@@ -66,13 +66,20 @@ void show(struct Node* root) {
 }
 
 char* pop(struct Node** root) {
-  if (*root == NULL) return NULL;
+  if ((*root) == NULL || root == NULL) return NULL;
+  if ((*root)->next == NULL) {
+    char* target_value = (*root)->value;
+    *root = NULL;
+    return target_value;
+  }
 
   struct Node* temp = *root;
-  while (temp->next != NULL) temp = temp->next;
+  while ((temp->next)->next != NULL) temp = temp->next;
 
-  char* target_value = temp->value;
-  free(temp);
+  struct Node* target = temp->next;
+  char* target_value = (temp->next)->value;
+  temp->next = NULL;
+  free(target);
 
   return target_value;
 }
@@ -96,8 +103,9 @@ void test_linked_list() {
   assert(search(ll.root, "B") == 0);
   printf("\tTest `delete` completed\n");
 
+  append(&ll.root, "B");
+  assert(pop(&ll.root) == "B");
   assert(pop(&ll.root) == "A");
-  assert(pop(&ll.root) == NULL);
   printf("\tTest `pop` completed\n");
 
   printf("Linked List Test Completed");
