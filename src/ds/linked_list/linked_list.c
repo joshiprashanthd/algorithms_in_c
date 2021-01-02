@@ -110,6 +110,8 @@ void test_linked_list() {
   assert(linked_list_append(&ll, "B") == 1);
   printf("\tTest `append` completed\n");
 
+  assert(ll->count == 2);
+
   assert(linked_list_search(ll, "A") == 1);
   assert(linked_list_search(ll, "B") == 1);
   assert(linked_list_search(ll, "9") == 0);
@@ -119,10 +121,14 @@ void test_linked_list() {
   assert(linked_list_search(ll, "B") == 0);
   printf("\tTest `delete` completed\n");
 
+  assert(ll->count == 1);
+
   linked_list_append(&ll, "B");
   assert(linked_list_pop(&ll) == "B");
   assert(linked_list_pop(&ll) == "A");
   printf("\tTest `pop` completed\n");
+
+  assert(ll->count == 0);
 
   printf("Linked List Test Completed");
 }
