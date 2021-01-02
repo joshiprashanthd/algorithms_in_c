@@ -1,21 +1,22 @@
 #ifndef doubly_linked_list_h
 #define double_linked_list_h
 
-struct Node {
+struct DoublyLinkedListNode {
   char* value;
-  struct Node* prev;
-  struct Node* next;
+  struct DoublyLinkedListNode* prev;
+  struct DoublyLinkedListNode* next;
 };
 
-struct DoublyLL {
+struct DoublyLinkedList {
   int count;
-  struct Node* root;
+  struct DoublyLinkedListNode* root;
 };
 
-int append(struct Node** root, char* value);
-int search(struct Node* root, char* value);
-int delete (struct Node** root, char* value);
-char* pop(struct Node** root);
-void show(struct Node* root);
+struct DoublyLinkedList* doubly_linked_list_new();
+int doubly_linked_list_append(struct DoublyLinkedList** doubly_ll, char* value);
+int doubly_linked_list_search(struct DoublyLinkedList* doubly_ll, char* value);
+int doubly_linked_list_delete(struct DoublyLinkedList** doubly_ll, char* value);
+char* doubly_linked_list_pop(struct DoublyLinkedList** doubly_ll);
+void doubly_linked_list_show(struct DoublyLinkedList* doubly_ll);
 void test_doubly_linked_list();
 #endif

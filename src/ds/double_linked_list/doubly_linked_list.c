@@ -4,16 +4,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int append(struct Node** root, char* value) {
+struct DoublyLinkedList* doubly_linked_list_new() {
+  struct DoublyLinkedList* doubly_ll =
+      (struct DoublyLinkedList*)malloc(sizeof(struct DoublyLinkedList));
+  doubly_ll->count = 0;
+  doubly_ll->root = NULL;
+  return doubly_ll;
+}
+
+int doubly_linked_list_append(struct DoublyLinkedList** doubly_ll,
+                              char* value) {
   if (value == NULL) return 0;
 
-  struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+  struct DoublyLinkedListNode* new_node =
+      (struct DoublyLinkedListNode*)malloc(sizeof(struct DoublyLinkedListNode));
   new_node->value = value;
 
-  if ((*root) == NULL)
-    *root = new_node;
+  if ((*doubly_ll)->root == NULL)
+    (*doubly_ll)->root = new_node;
   else {
-    struct Node* temp = *root;
+    struct DoublyLinkedListNode* temp = (*doubly_ll)->root;
     while (temp->next != NULL) temp = temp->next;
     temp->next = new_node;
     new_node->prev = temp;
@@ -23,8 +33,8 @@ int append(struct Node** root, char* value) {
   return 1;
 }
 
-int search(struct Node* root, char* value) {
-  struct Node* temp = root;
+int doubly_linked_list_search(struct DoublyLinkedList* doubly_ll, char* value) {
+  struct DoublyLinkedListNode* temp = doubly_ll->root;
 
   while (temp != NULL) {
     if (temp->value == value) return 1;
@@ -34,16 +44,17 @@ int search(struct Node* root, char* value) {
   return 0;
 }
 
-int delete (struct Node** root, char* value) {
+int doubly_linked_list_delete(struct DoublyLinkedList** doubly_ll,
+                              char* value) {
   if (value == NULL) return 0;
-  if ((*root) == NULL) return 0;
+  if ((*doubly_ll)->root == NULL) return 0;
 
-  struct Node* temp = *root;
+  struct DoublyLinkedListNode* temp = (*doubly_ll)->root;
 
   if (temp->value == value) {
     if (temp->next != NULL) {
       (temp->next)->prev = NULL;
-      *root = temp->next;
+      (*doubly_ll)->root = temp->next;
     }
 
     free(temp);
@@ -55,7 +66,7 @@ int delete (struct Node** root, char* value) {
   // cannot find node with value `value`
   if (temp->next == NULL) return 0;
 
-  struct Node* target = temp->next;
+  struct DoublyLinkedListNode* target = temp->next;
   temp->next = target->next;
   (temp->next)->prev = temp;
   free(target);
@@ -63,10 +74,10 @@ int delete (struct Node** root, char* value) {
   return 1;
 }
 
-char* pop(struct Node** root) {
-  if ((*root) == NULL) return 0;
+char* doubly_linked_list_pop(struct DoublyLinkedList** doubly_ll) {
+  if ((*doubly_ll)->root == NULL) return 0;
 
-  struct Node* temp = *root;
+  struct DoublyLinkedListNode* temp = (*doubly_ll)->root;
   while (temp->next != NULL) temp = temp->next;
 
   char* target_value = temp->value;
@@ -77,33 +88,29 @@ char* pop(struct Node** root) {
 }
 
 void test_doubly_linked_list() {
-  printf("\nDoubly Linked List Test Started:\n");
+  printf("\n\nDoubly Linked List Test Started:\n");
 
-  struct DoublyLL dll = {0, NULL};
+  struct DoublyLinkedList* doubly_ll = doubly_linked_list_new();
 
-  printf("\tTest `insert`\n");
-  assert(append(&dll.root, "A") == 1);
-  assert(append(&dll.root, "B") == 1);
-  assert(append(&dll.root, "D") == 1);
-  printf("\tTest `insert` completed\n");
+  assert(doubly_linked_list_append(&doubly_ll, "A") == 1);
+  assert(doubly_linked_list_append(&doubly_ll, "B") == 1);
+  assert(doubly_linked_list_append(&doubly_ll, "D") == 1);
+  printf("\tTest `append` completed\n");
 
-  printf("\tTest `search`\n");
-  assert(search(dll.root, "A") == 1);
-  assert(search(dll.root, "C") == 0);
+  assert(doubly_linked_list_search(doubly_ll, "A") == 1);
+  assert(doubly_linked_list_search(doubly_ll, "C") == 0);
   printf("\tTest `search` completed\n");
 
-  printf("\tTest `delete`\n");
-  assert(delete (&dll.root, "B") == 1);
-  assert(search(dll.root, "B") == 0);
+  assert(doubly_linked_list_delete(&doubly_ll, "B") == 1);
+  assert(doubly_linked_list_search(doubly_ll, "B") == 0);
 
-  assert(delete (&dll.root, "A") == 1);
-  assert(search(dll.root, "A") == 0);
+  assert(doubly_linked_list_delete(&doubly_ll, "A") == 1);
+  assert(doubly_linked_list_search(doubly_ll, "A") == 0);
 
-  assert(delete (&dll.root, "B") == 0);
-  printf("\tTest `insert` completed\n");
+  assert(doubly_linked_list_delete(&doubly_ll, "B") == 0);
+  printf("\tTest `delete` completed\n");
 
-  printf("\tTest `pop`\n");
-  assert(pop(&dll.root) == "D");
+  assert(doubly_linked_list_pop(&doubly_ll) == "D");
   printf("\tTest `pop` completed\n");
 
   printf("Doublu Linked List Test Completed\n");
